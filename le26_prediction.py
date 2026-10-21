@@ -43,7 +43,7 @@ parties = ['Labour', 'Conservative', 'Green', 'Lib Dem',
 greater_manchester_boroughs = ['Manchester', 'Trafford', 'Tameside',
                                'Stockport', 'Salford', 'Oldham', 'Bury',
                                'Rochdale', 'Bolton', 'Wigan']
-model = pd.read_excel('GM LE26 results.xlsx').sort_values('Ward').dropna()
+model = pd.read_csv('GM LE24 results.csv.xlsx').sort_values('Ward').dropna()
 model = model[model['Borough'].isin(greater_manchester_boroughs)]
 model['2024 Winner'] = model[parties].idxmax(axis=1)
 print("load model --- %s seconds ---" % (time.time() - start_time))
