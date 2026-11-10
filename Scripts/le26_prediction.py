@@ -39,7 +39,6 @@ actual_2024 = {
 
 parties = ['Labour', 'Conservative', 'Green', 'Lib Dem',
            'Reform', 'WPB/Others']
-# greater_manchester_boroughs = ['Manchester']
 greater_manchester_boroughs = ['Manchester', 'Trafford', 'Tameside',
                                'Stockport', 'Salford', 'Oldham', 'Bury',
                                'Rochdale', 'Bolton', 'Wigan']
@@ -57,7 +56,6 @@ def calculate_projection(current_swing_factors):
     return modelled_votes
 
 def calculate_statistics(modelled_votes):
-    """Calculate vote share and ward counts from modelled votes"""
     # Determine winners per ward
     projected_winner = modelled_votes[parties].idxmax(axis=1)
 
@@ -77,13 +75,9 @@ def calculate_statistics(modelled_votes):
 
     return vote_shares, ward_counts
 
-# Store original vote shares for recalculation
 original_votes = model[parties].copy()
 # Initial map and statistics
 def update_map(swing_factors):
-
-
-
     modelled_votes = calculate_projection(swing_factors)
     projected_winner = modelled_votes[parties].idxmax(axis=1)
 
@@ -120,16 +114,14 @@ gm_ward_map.loc[6133, 'WD24NM'] = 'Trafford Brooklands'
 gm_ward_map.loc[6142, 'WD24NM'] = 'Trafford Manor'
 
 if (gm_ward_map[gm_ward_map['WD24NM'].duplicated(keep=False)][['LAD24NM', 'WD24NM']].shape[0]) != 0:
-    print('DUPLICATE FOUND')
+    print('Duplicate found')
     print(gm_ward_map[gm_ward_map['WD24NM'].duplicated(keep=False)][['LAD24NM', 'WD24NM']])
 
-#
-# # --- Create interactive plot with GridSpec layout ---
 # Bar charts on the right
 fig = plt.figure(figsize=(18, 10))
 gs = fig.add_gridspec(2, 3, hspace=0.4, wspace=0.3, bottom=0.35)
 
-# Map on the left (takes up 2 columns)
+# Map on the left
 ax_map = fig.add_subplot(gs[:, 0:2])
 
 ax_vote_share = fig.add_subplot(gs[0, 2])
@@ -147,12 +139,12 @@ def redraw_charts(vote_shares, ward_counts):
     y_pos = np.arange(len(parties_ordered))
     bar_height = 0.35
 
-    # Plot actual results (lighter shade)
+    # Plot actual results
     ax_vote_share.barh(y_pos - bar_height / 2, actual_votes, bar_height,
                        label='2024 Actual', alpha=0.6,
                        color=[PARTY_COLOURS[p] for p in parties_ordered])
 
-    # Plot projected results (darker shade)
+    # Plot projected results
     ax_vote_share.barh(y_pos + bar_height / 2, projected_votes, bar_height,
                        label='Projected', alpha=1.0,
                        color=[PARTY_COLOURS[p] for p in parties_ordered])
@@ -207,7 +199,6 @@ def redraw_charts(vote_shares, ward_counts):
     print("redraw chart --- %s seconds ---" % (time.time() - start_time))
 
 def redraw_map(updated_map):
-    """Clear and redraw the map with new data"""
     new_colors = updated_map["colour"].values
     ward_plot.collections[0].set_facecolor(new_colors)
     # ax_map.clear()
@@ -251,7 +242,7 @@ for i, party in enumerate(parties):
         ax_slider,
         party,
         slider_range[party][0],
-        slider_range[party][1],  # Range from 0.5x to 2.5x original vote share
+        slider_range[party][1], 
         valinit=swing_factor[party],
         valstep=0.01,
         color=PARTY_COLOURS[party]
