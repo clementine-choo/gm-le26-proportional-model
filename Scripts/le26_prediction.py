@@ -76,7 +76,8 @@ def calculate_statistics(modelled_votes):
     return vote_shares, ward_counts
 
 original_votes = model[parties].copy()
-# Initial map and statistics
+
+# Initial map
 def update_map(swing_factors):
     modelled_votes = calculate_projection(swing_factors)
     projected_winner = modelled_votes[parties].idxmax(axis=1)
@@ -201,9 +202,7 @@ def redraw_charts(vote_shares, ward_counts):
 def redraw_map(updated_map):
     new_colors = updated_map["colour"].values
     ward_plot.collections[0].set_facecolor(new_colors)
-    # ax_map.clear()
-    #
-    # Plot wards
+    ax_map.clear()
 
     updated_map.plot(
         ax=ax_map,
