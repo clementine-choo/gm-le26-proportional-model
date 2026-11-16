@@ -1,64 +1,85 @@
 # Greater Manchester's LE26 Prediction Model
-This is a model that predicts the 2026 Local Elections results in Greater Manchester using a proportional model. It assumes that each party's votes will swing proportionally across Greater Manchester and predicts the number of councillors won by each party as a result. 
 
-Each party received the following vote share in the 2024 Local Elections:
-    Labour: 44.5%
-    Conservative: 17.3%
-    Lib Dem: 11.4%
-    Green: 10.3%
-    Reform: 2.1%
-    Workers Party and Others: 14.1%
-
-However, because Reform UK did not stand many candidates in the 2024 Local Elections, Ben Walker's ward-level projection of 2024 General Election results was used instead.  
-
-The default value for the 2026 Local Elections are:
-    Labour 0.65x
-    Conservative: 0.8x
-    Lib Dem: 1x
-    Green: 2x
-    Reform: 2x
-    Workers Party and Others: 1.2x
-
-Therefore the default vote shares are:
-    Labour: 22.4%
-    Conservative: 10.7%
-    Lib Dem: 8.8%
-    Green: 18.4%
-    Reform: 29.9%
-    Workers Party and Others: 9.8%
-
-And the new councillor counts are:
-    Labour: 145 -> 35
-    Conservative: 17 -> 10
-    Lib Dem: 21 -> 20
-    Green: 5 -> 25
-    Reform: 0 -> 96
-    Workers Party and Others: 27 -> 29
-
-By picking actual ratios from the 2026 Local Elections:
-    Labour: 0.67
-    Conservative: 0.75
-    Lib Dem: 0.99
-    Green: 2.32
-    Reform: 2.05
-    Workers Party and Others: 0.84
-
-The model predicts the following results:
-    Labour: 34 councillors
-    Conservative: 7 councillors
-    Lib Dem: 21 councillors
-    Green: 31 councillors
-    Reform: 106 councillors
-    Workers Party and Others: 16
-
-The actual results are:
-    Labour: 34 councillors (+0)
-    Conservative: 11 councillors (+4)
-    Lib Dem: 19 councillors (-2)
-    Green: 30 councillor (-1)
-    Reform: 105 councillors (+1)
-    Workers Party and Others: 15 councillors (-1)
-
-This shows that proportional model is remarkably accurate at predicting ward-level results
+**Author:** Clementine Choo  
 
 
+--
+
+## Project Overview
+
+This is an interactive tool that projects the 2026 Local Elections results in Greater Manchester using a proportional model. It assumes that each party's votes will swing proportionally across Greater Manchester and predicts the number of councillors won by each party as a result. 
+
+---
+
+## Repository Structure
+
+```
+gm-le26-proportional-model/
+│
+├── Assets/                          # Screenshots and visual outputs from the analysis
+│   ├── Figure_1.png
+│   └── Figure_2.png
+│
+├── Dataset/
+│   ├── WD_DEC_24_UK_BGC.shp/        # Shape file for each ward in the UK
+│   └──  GM LE24 result.csv/         # Pre-model assumption of 2024 results
+│ 
+├── Scripts/                         # Python scripts used to create the interactive model
+│   └── le26_prediction.py
+│
+├── LICENSE                          # MIT License
+├── README.md                        # Project overview and documentation
+└── requirements.txt                 # Python dependencies
+```
+
+---
+
+## Analysis approach
+
+### Step 1: Defining baseline
+A baseline is defined for each party in each ward. For every party but Reform, I used the exact results from the 2024 local elections for each ward. Reform are treated differently because they did not stand in the local election, so instead I used the projected votes they receieved in each ward in the 2024 general election.
+
+### Step 2: Choose a proportional swing for each party
+Each party gets a multipler, so if we choose 2.0 for the Green Party, we assume that the Green Party will receive 2.0 times the votes they received at the baseline in each ward. The default values are:
+
+| Party                            | Default Value                                |
+|----------------------------------|----------------------------------------------|
+| Labour           | 0.65       |
+| Conservative              | 0.8                        |
+| Lib Dem         | 1.0             |
+| Green    | 2.0             |
+| Reform                | 2.0     |
+| Workers Party and Others         | 1.2                          |
+
+### Step 3: Pick a winner in each ward
+
+### Step 4: Aggregate across Greater Manchester and calculate the statistics
+
+### Step 5: Add sliders to create interactivity
+
+### Caveat: The "Councillors Count" metric looks at the number of councillors won by each party within the ones that are up for election and does not include those that are not up for election. 
+
+---
+
+## Key Findings
+
+Since the 2026 local elections have already passed, we can compare the model to actual results
+
+| Party          | Actual Proportional Swing    | Predicted Councillor Count | Actual Councillor Count    |
+|----------------------------------|----------------------------------------------|
+| Labour           | 0.67       | 35 | 34 |
+| Conservative              | 0.75               | 7 | 11 |
+| Lib Dem         | 0.99    | 21 | 19 |
+| Green    | 2.32   | 31 | 30 |
+| Reform                | 2.05     | 106 | 105 |
+| Workers Party and Others         | 0.84          | 16 | 15 |
+
+Across 216 wards, the average error for each party is 1.6 ward, which shows that a proportional projection model is remarkably accurate at predicting ward-level results.
+
+## Technologies Used
+
+- **Python**
+- **Pandas**
+- **NumPy**
+- **GeoPandas**
+- **MatPlotLib**
