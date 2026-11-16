@@ -66,7 +66,7 @@ Each party gets a multipler, so if we choose 2.0 for the Green Party, we assume 
 Since the 2026 local elections have already passed, we can compare the model to actual results
 
 | Party          | Actual Proportional Swing    | Predicted Councillor Count | Actual Councillor Count    |
-|----------------------------------|----------------------------------------------|
+|----------------------------------|----------------------------------------------|----------------------------------------------|----------------------------------------------|
 | Labour           | 0.67       | 35 | 34 |
 | Conservative              | 0.75               | 7 | 11 |
 | Lib Dem         | 0.99    | 21 | 19 |
